@@ -38,10 +38,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notnoop.apns.internal.Utilities;
 
 /**
- * Represents a builder for constructing Payload requests, as
- * specified by Apple Push Notification Programming Guide.
+ * Represents a builder for constructing Payload requests, as specified by Apple
+ * Push Notification Programming Guide.
  */
-public final class PayloadBuilder {
+public class PayloadBuilder {
+
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private final Map<String, Object> root;
@@ -58,11 +59,11 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets the alert body text, the text the appears to the user,
-     * to the passed value
+     * Sets the alert body text, the text the appears to the user, to the passed
+     * value
      *
      * @param alert the text to appear to the user
-     * @return  this
+     * @return this
      */
     public PayloadBuilder alertBody(final String alert) {
         customAlert.put("body", alert);
@@ -70,13 +71,13 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets the alert title text, the text the appears to the user,
-     * to the passed value.
+     * Sets the alert title text, the text the appears to the user, to the
+     * passed value.
      *
      * Used on iOS 8.2, iWatch and also Safari
      *
      * @param title the text to appear to the user
-     * @return  this
+     * @return this
      */
     public PayloadBuilder alertTitle(final String title) {
         customAlert.put("title", title);
@@ -84,10 +85,11 @@ public final class PayloadBuilder {
     }
 
     /**
-     * The key to a title string in the Localizable.strings file for the current localization.
+     * The key to a title string in the Localizable.strings file for the current
+     * localization.
      *
-     * @param key  the localizable message title key
-     * @return  this
+     * @param key the localizable message title key
+     * @return this
      */
     public PayloadBuilder localizedTitleKey(final String key) {
         customAlert.put("title-loc-key", key);
@@ -98,7 +100,7 @@ public final class PayloadBuilder {
      * Sets the arguments for the localizable title key.
      *
      * @param arguments the arguments to the localized alert message
-     * @return  this
+     * @return this
      */
     public PayloadBuilder localizedTitleArguments(final Collection<String> arguments) {
         customAlert.put("title-loc-args", arguments);
@@ -109,7 +111,7 @@ public final class PayloadBuilder {
      * Sets the arguments for the localizable title key.
      *
      * @param arguments the arguments to the localized alert message
-     * @return  this
+     * @return this
      */
     public PayloadBuilder localizedTitleArguments(final String... arguments) {
         return localizedTitleArguments(Arrays.asList(arguments));
@@ -119,24 +121,33 @@ public final class PayloadBuilder {
      * Sets the alert action text
      *
      * @param action The label of the action button
-     * @return  this
+     * @return this
      */
     public PayloadBuilder alertAction(final String action) {
         customAlert.put("action", action);
         return this;
     }
 
+    public PayloadBuilder apsCustomField(final String key, final Object value) {
+        if (value != null) {
+            aps.put(key, value);
+        } else {
+            aps.remove(key);
+        }
+        return this;
+    }
+
     /**
-     * Sets the "url-args" key that are paired with the placeholders
-     * inside the urlFormatString value of your website.json file.
-     * The order of the placeholders in the URL format string determines
-     * the order of the values supplied by the url-args array.
+     * Sets the "url-args" key that are paired with the placeholders inside the
+     * urlFormatString value of your website.json file. The order of the
+     * placeholders in the URL format string determines the order of the values
+     * supplied by the url-args array.
      *
-     * @param urlArgs the values to be paired with the placeholders inside
-     *                the urlFormatString value of your website.json file.
-     * @return  this
+     * @param urlArgs the values to be paired with the placeholders inside the
+     * urlFormatString value of your website.json file.
+     * @return this
      */
-    public PayloadBuilder urlArgs(final String... urlArgs){
+    public PayloadBuilder urlArgs(final String... urlArgs) {
         aps.put("url-args", urlArgs);
         return this;
     }
@@ -146,9 +157,9 @@ public final class PayloadBuilder {
      *
      * Passing {@code null} disables the notification sound.
      *
-     * @param sound the file name or song name to be played
-     *              when receiving the notification
-     * @return  this
+     * @param sound the file name or song name to be played when receiving the
+     * notification
+     * @return this
      */
     public PayloadBuilder sound(final String sound) {
         if (sound != null) {
@@ -160,14 +171,14 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets the category of the notification for iOS8 notification
-     * actions.  See 13 minutes into "What's new in iOS Notifications"
+     * Sets the category of the notification for iOS8 notification actions. See
+     * 13 minutes into "What's new in iOS Notifications"
      *
      * Passing {@code null} removes the category.
      *
-     * @param category the name of the category supplied to the app
-     *              when receiving the notification
-     * @return  this
+     * @param category the name of the category supplied to the app when
+     * receiving the notification
+     * @return this
      */
     public PayloadBuilder category(final String category) {
         if (category != null) {
@@ -179,15 +190,14 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets the notification badge to be displayed next to the
-     * application icon.
+     * Sets the notification badge to be displayed next to the application icon.
      *
-     * The passed value is the value that should be displayed
-     * (it will be added to the previous badge number), and
-     * a badge of 0 clears the badge indicator.
+     * The passed value is the value that should be displayed (it will be added
+     * to the previous badge number), and a badge of 0 clears the badge
+     * indicator.
      *
      * @param badge the badge number to be displayed
-     * @return  this
+     * @return this
      */
     public PayloadBuilder badge(final int badge) {
         aps.put("badge", badge);
@@ -195,8 +205,7 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Requests clearing of the badge number next to the application
-     * icon.
+     * Requests clearing of the badge number next to the application icon.
      *
      * This is an alias to {@code badge(0)}.
      *
@@ -207,18 +216,18 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets the value of action button (the right button to be
-     * displayed).  The default value is "View".
+     * Sets the value of action button (the right button to be displayed). The
+     * default value is "View".
      *
-     * The value can be either the simple String to be displayed or
-     * a localizable key, and the iPhone will show the appropriate
-     * localized message.
+     * The value can be either the simple String to be displayed or a
+     * localizable key, and the iPhone will show the appropriate localized
+     * message.
      *
-     * A {@code null} actionKey indicates no additional button
-     * is displayed, just the Cancel button.
+     * A {@code null} actionKey indicates no additional button is displayed,
+     * just the Cancel button.
      *
      * @param actionKey the title of the additional button
-     * @return  this
+     * @return this
      */
     public PayloadBuilder actionKey(final String actionKey) {
         customAlert.put("action-loc-key", actionKey);
@@ -239,8 +248,8 @@ public final class PayloadBuilder {
     /**
      * Sets the notification type to be a 'newstand' notification.
      *
-     * A Newstand Notification targets the Newstands app so that the app
-     * updates the subscription info and content.
+     * A Newstand Notification targets the Newstands app so that the app updates
+     * the subscription info and content.
      *
      * @return this
      */
@@ -250,10 +259,12 @@ public final class PayloadBuilder {
     }
 
     /**
-     * With iOS7 it is possible to have the application wake up before the user opens the app.
-     * 
-     * The same key-word can also be used to send 'silent' notifications. With these 'silent' notification 
-     * a different app delegate is being invoked, allowing the app to perform background tasks.
+     * With iOS7 it is possible to have the application wake up before the user
+     * opens the app.
+     *
+     * The same key-word can also be used to send 'silent' notifications. With
+     * these 'silent' notification a different app delegate is being invoked,
+     * allowing the app to perform background tasks.
      *
      * @return this
      */
@@ -263,11 +274,10 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Set the notification localized key for the alert body
-     * message.
+     * Set the notification localized key for the alert body message.
      *
-     * @param key   the localizable message body key
-     * @return  this
+     * @param key the localizable message body key
+     * @return this
      */
     public PayloadBuilder localizedKey(final String key) {
         customAlert.put("loc-key", key);
@@ -280,7 +290,7 @@ public final class PayloadBuilder {
      * The iPhone doesn't localize the arguments.
      *
      * @param arguments the arguments to the localized alert message
-     * @return  this
+     * @return this
      */
     public PayloadBuilder localizedArguments(final Collection<String> arguments) {
         customAlert.put("loc-args", arguments);
@@ -293,7 +303,7 @@ public final class PayloadBuilder {
      * The iPhone doesn't localize the arguments.
      *
      * @param arguments the arguments to the localized alert message
-     * @return  this
+     * @return this
      */
     public PayloadBuilder localizedArguments(final String... arguments) {
         return localizedArguments(Arrays.asList(arguments));
@@ -302,9 +312,9 @@ public final class PayloadBuilder {
     /**
      * Sets the launch image file for the push notification
      *
-     * @param launchImage   the filename of the image file in the
-     *      application bundle.
-     * @return  this
+     * @param launchImage the filename of the image file in the application
+     * bundle.
+     * @return this
      */
     public PayloadBuilder launchImage(final String launchImage) {
         customAlert.put("launch-image", launchImage);
@@ -312,17 +322,15 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Sets any application-specific custom fields.  The values
-     * are presented to the application and the iPhone doesn't
-     * display them automatically.
+     * Sets any application-specific custom fields. The values are presented to
+     * the application and the iPhone doesn't display them automatically.
      *
-     * This can be used to pass specific values (urls, ids, etc) to
-     * the application in addition to the notification message
-     * itself.
+     * This can be used to pass specific values (urls, ids, etc) to the
+     * application in addition to the notification message itself.
      *
-     * @param key   the custom field name
+     * @param key the custom field name
      * @param value the custom field value
-     * @return  this
+     * @return this
      */
     public PayloadBuilder customField(final String key, final Object value) {
         root.put(key, value);
@@ -334,16 +342,14 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Set any application-specific custom fields.  These values
-     * are presented to the application and the iPhone doesn't
-     * display them automatically.
+     * Set any application-specific custom fields. These values are presented to
+     * the application and the iPhone doesn't display them automatically.
      *
-     * This method *adds* the custom fields in the map to the
-     * payload, and subsequent calls add but doesn't reset the
-     * custom fields.
+     * This method *adds* the custom fields in the map to the payload, and
+     * subsequent calls add but doesn't reset the custom fields.
      *
-     * @param values   the custom map
-     * @return  this
+     * @param values the custom map
+     * @return this
      */
     public PayloadBuilder customFields(final Map<String, ?> values) {
         root.putAll(values);
@@ -360,8 +366,8 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Returns true if the payload built so far is larger than
-     * the size permitted by Apple (which is 2048 bytes).
+     * Returns true if the payload built so far is larger than the size
+     * permitted by Apple (which is 2048 bytes).
      *
      * @return true if the result payload is too long
      */
@@ -370,33 +376,33 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Shrinks the alert message body so that the resulting payload
-     * message fits within the passed expected payload length.
+     * Shrinks the alert message body so that the resulting payload message fits
+     * within the passed expected payload length.
      *
-     * This method performs best-effort approach, and its behavior
-     * is unspecified when handling alerts where the payload
-     * without body is already longer than the permitted size, or
-     * if the break occurs within word.
+     * This method performs best-effort approach, and its behavior is
+     * unspecified when handling alerts where the payload without body is
+     * already longer than the permitted size, or if the break occurs within
+     * word.
      *
      * @param payloadLength the expected max size of the payload
-     * @return  this
+     * @return this
      */
     public PayloadBuilder resizeAlertBody(final int payloadLength) {
         return resizeAlertBody(payloadLength, "");
     }
 
     /**
-     * Shrinks the alert message body so that the resulting payload
-     * message fits within the passed expected payload length.
+     * Shrinks the alert message body so that the resulting payload message fits
+     * within the passed expected payload length.
      *
-     * This method performs best-effort approach, and its behavior
-     * is unspecified when handling alerts where the payload
-     * without body is already longer than the permitted size, or
-     * if the break occurs within word.
+     * This method performs best-effort approach, and its behavior is
+     * unspecified when handling alerts where the payload without body is
+     * already longer than the permitted size, or if the break occurs within
+     * word.
      *
      * @param payloadLength the expected max size of the payload
      * @param postfix for the truncated body, e.g. "..."
-     * @return  this
+     * @return this
      */
     public PayloadBuilder resizeAlertBody(final int payloadLength, final String postfix) {
         int currLength = length();
@@ -405,11 +411,11 @@ public final class PayloadBuilder {
         }
 
         // now we are sure that truncation is required
-        String body = (String)customAlert.get("body");
+        String body = (String) customAlert.get("body");
 
         final int acceptableSize = Utilities.toUTF8Bytes(body).length
                 - (currLength - payloadLength
-                        + Utilities.toUTF8Bytes(postfix).length);
+                + Utilities.toUTF8Bytes(postfix).length);
         body = Utilities.truncateWhenUTF8(body, acceptableSize) + postfix;
 
         // set it back
@@ -418,7 +424,7 @@ public final class PayloadBuilder {
         // calculate the length again
         currLength = length();
 
-        if(currLength > payloadLength) {
+        if (currLength > payloadLength) {
             // string is still too long, just remove the body as the body is
             // anyway not the cause OR the postfix might be too long
             customAlert.remove("body");
@@ -428,42 +434,42 @@ public final class PayloadBuilder {
     }
 
     /**
-     * Shrinks the alert message body so that the resulting payload
-     * message fits within require Apple specification (2048 bytes).
+     * Shrinks the alert message body so that the resulting payload message fits
+     * within require Apple specification (2048 bytes).
      *
-     * This method performs best-effort approach, and its behavior
-     * is unspecified when handling alerts where the payload
-     * without body is already longer than the permitted size, or
-     * if the break occurs within word.
+     * This method performs best-effort approach, and its behavior is
+     * unspecified when handling alerts where the payload without body is
+     * already longer than the permitted size, or if the break occurs within
+     * word.
      *
-     * @return  this
+     * @return this
      */
     public PayloadBuilder shrinkBody() {
         return shrinkBody("");
     }
 
     /**
-     * Shrinks the alert message body so that the resulting payload
-     * message fits within require Apple specification (2048 bytes).
+     * Shrinks the alert message body so that the resulting payload message fits
+     * within require Apple specification (2048 bytes).
      *
-     * This method performs best-effort approach, and its behavior
-     * is unspecified when handling alerts where the payload
-     * without body is already longer than the permitted size, or
-     * if the break occurs within word.
+     * This method performs best-effort approach, and its behavior is
+     * unspecified when handling alerts where the payload without body is
+     * already longer than the permitted size, or if the break occurs within
+     * word.
      *
      * @param postfix for the truncated body, e.g. "..."
      *
-     * @return  this
+     * @return this
      */
     public PayloadBuilder shrinkBody(final String postfix) {
         return resizeAlertBody(Utilities.MAX_PAYLOAD_LENGTH, postfix);
     }
 
     /**
-     * Returns the JSON String representation of the payload
-     * according to Apple APNS specification
+     * Returns the JSON String representation of the payload according to Apple
+     * APNS specification
      *
-     * @return  the String representation as expected by Apple
+     * @return the String representation as expected by Apple
      */
     public String build() {
         if (!root.containsKey("mdm")) {
@@ -487,16 +493,16 @@ public final class PayloadBuilder {
                     aps.put("alert", customAlert.get("body"));
                     break;
                 }
-                // else follow through
-                //$FALL-THROUGH$
+            // else follow through
+            //$FALL-THROUGH$
             default:
                 aps.put("alert", customAlert);
         }
     }
 
     /**
-     * Returns the bytes representation of the payload according to
-     * Apple APNS specification
+     * Returns the bytes representation of the payload according to Apple APNS
+     * specification
      *
      * @return the bytes as expected by Apple
      */

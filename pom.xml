@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.notnoop.apns</groupId>
     <artifactId>apns</artifactId>
-    <version>1.0.0.Beta7-SNAPSHOT</version>
+    <version>x.1.0.0</version>
     <packaging>jar</packaging>
     <name>Java Apple Push Notification Service Library</name>
 
@@ -23,6 +23,48 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>https://repo.spring.io/plugins-release/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <repositories> 
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>repository.spring.milestone</id>
+            <name>Spring Milestone Repository</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository> 
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -180,39 +222,39 @@
                 <configuration>
                     <failOnError>false</failOnError>
 
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <xmlOutput>true</xmlOutput>
-                    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>analyze-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>xml-maven-plugin</artifactId>
-                <version>1.0</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>transform</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <transformationSets>
-                        <transformationSet>
-                            <dir>${project.build.directory}/findbugs</dir>
-                            <outputDir>${project.build.directory}/findbugs</outputDir>
-                            <stylesheet>fancy-hist.xsl</stylesheet>    -->
+    <effort>Max</effort>
+    <threshold>Low</threshold>
+    <xmlOutput>true</xmlOutput>
+    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+</configuration>
+<executions>
+    <execution>
+        <id>analyze-compile</id>
+        <phase>compile</phase>
+        <goals>
+            <goal>check</goal>
+        </goals>
+    </execution>
+</executions>
+</plugin>
+<plugin>
+<groupId>org.codehaus.mojo</groupId>
+<artifactId>xml-maven-plugin</artifactId>
+<version>1.0</version>
+<executions>
+    <execution>
+        <phase>verify</phase>
+        <goals>
+            <goal>transform</goal>
+        </goals>
+    </execution>
+</executions>
+<configuration>
+    <transformationSets>
+        <transformationSet>
+            <dir>${project.build.directory}/findbugs</dir>
+            <outputDir>${project.build.directory}/findbugs</outputDir>
+            <stylesheet>fancy-hist.xsl</stylesheet>    -->
             <!--<stylesheet>default.xsl</stylesheet>-->
             <!--<stylesheet>plain.xsl</stylesheet>-->
             <!--<stylesheet>fancy.xsl</stylesheet>-->
