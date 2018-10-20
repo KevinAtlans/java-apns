@@ -1,3 +1,5 @@
+Fork from [Java APNs](https://github.com/notnoop/java-apns)
+
 Build status:
 
    * Main fork [![Build Status](https://travis-ci.org/notnoop/java-apns.png)](https://travis-ci.org/notnoop/java-apns)
@@ -53,7 +55,7 @@ Add the following dependencies to your `pom.xml` file:
         <dependency>
              <groupId>com.notnoop.apns</groupId>
              <artifactId>apns</artifactId>
-             <version>1.0.0.Beta6</version>
+             <version>x.1.0.0</version>
         </dependency>
 
 Sample Code
